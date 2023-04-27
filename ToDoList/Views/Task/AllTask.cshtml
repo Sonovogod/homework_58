@@ -1,0 +1,65 @@
+@using ToDoList.Enums.EmunService
+@model List<ShortTaskViewModel>
+
+@{
+    ViewBag.Title = "Все задачи";
+    Layout = "_Layout";
+}
+@if (!Model.Any())
+{
+    <h2>Нет активных задач</h2>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#ID</th>
+            <th scope="col">Название задачи</th>
+            <th scope="col">Приоритет</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Действия</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (var task in Model)
+            {
+                <tr>
+                    <th scope="row">1</th>
+                    <td>@task.Id</td>
+                    <td>@task.Title</td>
+                    <td>@task.Priority</td>
+                    <td>@task.State.GetDescription()</td>
+                    <td>
+                        <div class="row">
+                            @switch (task.State.ToString())
+                            {
+                                case "New":
+                                    <div class="col-auto">
+                                        <a>Удалить</a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a>Открыть</a>
+                                    </div>
+                                    break;
+                                case "Open":
+                                    <div class="col-auto">
+                                    <a>Закрыть</a>
+                                    </div>
+                                    break;
+                                case "Close":
+                                    <div class="col-auto">
+                                        <a>Удалить</a>
+                                    </div>
+                                    break;
+                            }
+                            <div class="col-auto">
+                                <a>Детали</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
