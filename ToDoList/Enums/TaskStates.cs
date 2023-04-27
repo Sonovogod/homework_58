@@ -9,5 +9,7 @@ public enum TaskStates
     [Description("Открытая")]
     Open,
     [Description("Закрытая")]
-    Close
+    Close,
+    [Description("Удалена")]
+    Deleted
 }

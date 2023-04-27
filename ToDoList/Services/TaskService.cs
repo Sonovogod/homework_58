@@ -15,7 +15,6 @@ public class TaskService : ITasKService
     public List<ShortTaskViewModel> GetAll()
     {
         List<ShortTaskViewModel> taskViewModels = _db.Tasks
-            .Where(x=> x.IsDelete == false)
             .Select(task => new ShortTaskViewModel
             {
                 Id = task.Id,
