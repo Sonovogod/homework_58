@@ -7,7 +7,6 @@ namespace ToDoList.Models;
 public class TaskContext : IdentityDbContext<User>
 {
     public DbSet<Task> Tasks { get; set; }
-
     public TaskContext(DbContextOptions<TaskContext> options) : base(options)
     {
     }

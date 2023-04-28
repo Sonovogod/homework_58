@@ -1,8 +1,43 @@
-@model dynamic
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ToDoList.Services.ViewModels.User.RegisterUserViewModel
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Регистрация";
     Layout = "_Layout";
 }
-
-<h2>title</h2>
+<h2>Регистрация</h2>
+<form asp-action="Register" method="post" asp-antiforgery="true">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label" asp-for="Email"></label>
+    <input type="email" class="form-control" id="exampleInputEmail1" asp-for="Email">
+    <span class="text-danger" asp-validation-for="Email"></span>
+  </div>
+  <div class="mb-3">
+    <label for="userName" class="form-label" asp-for="UserName"></label>
+    <input type="text" class="form-control" id="userName" asp-for="UserName">
+    <span class="text-danger" asp-validation-for="UserName"></span>
+  </div>
+  <div class="mb-3">
+    <label for="pass" class="form-label" asp-for="Password"></label>
+    <input type="password" id="pass" class="form-control" aria-labelledby="passHelp" asp-for="Password">
+    <div id="passHelp" class="form-text">
+      Пароль должен содержать не менее 8 символов, а также минимум 1 цифру и одну букву в верхнем регистре и только на латинице
+    </div>
+    <span class="text-danger" asp-validation-for="Password"></span>
+  </div>
+  <div class="mb-3">
+    <label for="confirm" class="form-label" asp-for="ConfirmPassword"></label>
+    <input type="password" class="form-control" id="confirm" asp-for="ConfirmPassword">
+    <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+    <div id="passwordHelpBlock" class="form-text">
+      Пароли должны совпадать
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+</form>
+@section Scripts
+{
+  @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+  }
+}
