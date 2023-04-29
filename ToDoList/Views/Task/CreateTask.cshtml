@@ -1,0 +1,57 @@
+@using ToDoList.Enums
+@using ToDoList.Enums.EmunService
+@using Microsoft.AspNet.Identity
+@model CreateTaskViewModel
+
+@{
+    ViewBag.Title = "Добавить задачу";
+    Layout = "_Layout";
+}
+
+<h2>Добавление новой задачи</h2>
+<div class="row">
+    <div class="phone_add_form col-md-6">
+        <form asp-action="CreateTask" asp-controller="Task" method="post">
+            <div class="form-group mb-3">
+                <label for="title" class="mb-2" asp-for="Title"></label>
+                <input asp-for="Title"
+                       type="text"
+                       class="form-control"
+                       id="title"
+                       placeholder="Сдать ДЗ #58">
+                <span class="text-danger" asp-validation-for="Title"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label for="desc" class="mb-2" asp-for="Description"></label>
+                <input asp-for="Description"
+                       type="text"
+                       class="form-control"
+                       id="desc"
+                       placeholder="Сделать 1 задание, 2 задание, 3 задание, ну и конечно необязательную лабу">
+                <span class="text-danger" asp-validation-for="Description"></span>
+            </div>
+            <label class="mb-2" asp-for="Priority"></label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" asp-for="Priority" value="@PriorityState.Hi">
+                <label class="form-check-label" for="flexRadioDefault1">@PriorityState.Hi.GetDescription()</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked asp-for="Priority" value="@PriorityState.Midle">
+                <label class="form-check-label" for="flexRadioDefault2">@PriorityState.Midle.GetDescription()</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" asp-for="Priority" value="@PriorityState.Low">
+                <label class="form-check-label" for="flexRadioDefault3">@PriorityState.Low.GetDescription()</label>
+            </div>
+            <input type="text" asp-for="ManagerId" value="@User.Identity.GetUserId()">
+            <button type="submit" class="btn btn-outline-info mt-3">Создать</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

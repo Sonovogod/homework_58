@@ -1,0 +1,46 @@
+@using ToDoList.Enums.EmunService
+@using ToDoList.Enums
+@using Microsoft.AspNet.Identity
+@model TaskViewModel
+
+@{
+    ViewBag.Title = "Подробнее о задаче";
+    Layout = "_Layout";
+}
+
+<div class="container text-center">
+  <div class="row">
+    <div class="col">
+      <span>@Model.Title</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <span>Статус</span>
+      <span>Приоритет</span>
+      <span>Номер</span>
+      @if (Model is { States: TaskStates.New,ExecutorId: not null })
+      {
+        <a class="btn btn-info" asp-controller="Task" asp-action="OpenTask" asp-route-id="@Model.Id">Принять задачу</a>
+      }
+      else if (Model.States == TaskStates.Open && Model.ExecutorId == User.Identity.GetUserId())
+      {
+        <a class="btn btn-outline-danger" asp-controller="Task" asp-action="CloseTask" asp-route-id="@Model.Id">Закрыть</a>
+      }
+    </div>
+    <div class="col-4">
+      <span>@Model.States.GetDescription()</span>
+      <span>@Model.Priority.GetDescription()</span>
+      <span>@Model.Id</span>
+      @if (User.IsInRole("admin") || (Model.ManagerId == User.Identity.GetUserId() && Model.States != TaskStates.Open))
+      {
+        <a class="btn btn-outline-danger" asp-controller="Task" asp-action="CloseTask" asp-route-id="@Model.Id">Удалить</a>
+      }
+    </div>
+    <div class="col-8">
+      <span>Описание задачи</span>
+      <span>@Model.Description</span>
+    </div>
+  </div>
+</div>
+

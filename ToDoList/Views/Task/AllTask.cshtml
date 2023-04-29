@@ -28,7 +28,7 @@ else
                     <th scope="row">1</th>
                     <td>@task.Id</td>
                     <td>@task.Title</td>
-                    <td>@task.Priority</td>
+                    <td>@task.Priority.GetDescription()</td>
                     <td>@task.State.GetDescription()</td>
                     <td>
                         <div class="row">

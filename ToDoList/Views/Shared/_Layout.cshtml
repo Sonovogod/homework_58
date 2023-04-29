@@ -12,21 +12,38 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Task" asp-action="AllTask">Список задач</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a class="navbar-brand" asp-area="" asp-controller="Task" asp-action="AllTask">Список задач</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogOff">Выход</a>
+                        </li>
+                        <li class="nav-item">
+                            <span>Добро пожаловать, @User.Identity.Name</span>
+                        </li>
+                    </ul>
+                </div>
+            }
+            else
+            {
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Privacy</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Вход/Регистриция</a>
                     </li>
                 </ul>
-            </div>
+            }
         </div>
     </nav>
 </header>
