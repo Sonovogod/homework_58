@@ -20,6 +20,7 @@ public class RegisterUserViewModel
     
     [Display(Name = "Введите пароль")]
     [Required(ErrorMessage = "Поле не может быть пустым")]
+    [MinLength(5, ErrorMessage = "Минимальная длина поля должна быть не менее 5 символов.")]
     public string Password { get; set; }
     
     [Display(Name = "Повторите введенный пароль")]

@@ -88,7 +88,9 @@ public class AccountController : Controller
         return View(user);
     }
 
-    [HttpGet]
+    [HttpPost]
+    [Authorize]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> LogOff()
     {
         await _signInManager.SignOutAsync();

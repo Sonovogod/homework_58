@@ -16,12 +16,12 @@ public class UserValidationController : Controller
     [AcceptVerbs("Get", "Post")]
     public bool CheckUniqueName(string userName)
     {
-        return !_userManager.Users.Any(x => x.NormalizedUserName != null && x.NormalizedUserName.Equals(userName.Normalize()));
+        return !_userManager.Users.Any(x=> x.UserName != null && x.UserName.ToUpper().Equals(userName));
     }
     
     [AcceptVerbs("Get", "Post")]
     public bool CheckUniqueEmail(string email)
     {
-        return !_userManager.Users.Any(x=> x.NormalizedEmail != null && x.NormalizedEmail.Equals(email.Normalize()));
+        return !_userManager.Users.Any(x=> x.Email != null && x.Email.ToUpper().Equals(email.ToUpper()));
     }
 }

@@ -25,7 +25,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Task" asp-action="CreateTask">Добавить задачу</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-info" asp-area="" asp-controller="Account" asp-action="LogOff">Выход</a>
+                            <form asp-action="LogOff" asp-controller="Account" method="post" asp-antiforgery="true">
+                                <button type="submit" class="btn btn-info">Выйти</button>
+                            </form>
                         </li>
                         <li class="nav-item">
                             <span class="nav-link text-info">Добро пожаловать, @User.Identity.Name</span>
