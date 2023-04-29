@@ -40,18 +40,22 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             User? user = await _userManager.FindByEmailAsync(model.Email);
-            SignInResult signInResult = await _signInManager.PasswordSignInAsync(
-                user, model.Password, model.RememberMe, false);
-            if (signInResult.Succeeded)
+            if (user is not null)
             {
-                if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                {
-                    return Redirect(model.ReturnUrl);
-                }
+                SignInResult signInResult = await _signInManager.PasswordSignInAsync(
+                    user, model.Password, model.RememberMe, false);
 
-                return RedirectToAction("AllTask", "Task");
+                if (signInResult.Succeeded)
+                {
+                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                    {
+                        return Redirect(model.ReturnUrl);
+                    }
+
+                    return RedirectToAction("AllTask", "Task");
+                }
             }
-            ModelState.AddModelError(string.Empty, "Некорректный логин и/или пароль");
+            ModelState.AddModelError("incorrectAuthentication", "Некорректный логин и/или пароль");
         }
         return View(model);
     }
@@ -84,8 +88,7 @@ public class AccountController : Controller
         return View(user);
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
+    [HttpGet]
     public async Task<IActionResult> LogOff()
     {
         await _signInManager.SignOutAsync();

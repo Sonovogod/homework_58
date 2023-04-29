@@ -1,7 +1,6 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ToDoList.Enums;
 using ToDoList.Extensions;
 using ToDoList.Services;
@@ -37,6 +36,7 @@ public class TaskController : Controller
     
     [HttpPost]
     [Authorize]
+    [ValidateAntiForgeryToken]
     public IActionResult CreateTask(CreateTaskViewModel model)
     {
         if (ModelState.IsValid)
@@ -84,6 +84,7 @@ public class TaskController : Controller
     
     [HttpPost]
     [Authorize]
+    [ValidateAntiForgeryToken]
     public IActionResult EditTask(CreateTaskViewModel model)
     {
         if (ModelState.IsValid)

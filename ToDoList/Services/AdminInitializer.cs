@@ -10,7 +10,7 @@ public class AdminInitializer
     {
         string adminName = "SuperAdmin";
         string adminEmail = "admin@admin.com";
-        string adminPassword = "1234567A";
+        string adminPassword = "12345";
 
         var roles = new string[] { "admin", "user" };
         foreach (var role in roles)
