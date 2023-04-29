@@ -117,6 +117,7 @@ public class TaskController : Controller
         Task? task = _taskService.GetById(id);
         if (task is not null)
         {
+            task.ExecutorId = User.Identity.GetUserId();
             _taskService.ChangeState(task, TaskStates.Open);
             return RedirectToAction("AboutTask", new { id = id });
         }
