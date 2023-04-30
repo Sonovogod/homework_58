@@ -43,4 +43,19 @@ public static class TaskExtension
             DateOfOpen = model.DateOfOpen
         };
     }
+    
+    public static List<ShortTaskViewModel> MapToShortTasksViewModels (this IEnumerable<Task> model)
+    {
+        List<ShortTaskViewModel> shortTaskViewModels = model.Select(task => new ShortTaskViewModel
+        {
+            Id = task.Id,
+            Title = task.Title,
+            Priority = task.Priority,
+            State = task.State,
+            ManagerId = task.ManagerId,
+            ExecutorId = task.ExecutorId
+            
+        }).ToList();
+        return shortTaskViewModels;
+    }
 }

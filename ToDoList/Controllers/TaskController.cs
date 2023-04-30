@@ -134,7 +134,7 @@ public class TaskController : Controller
         if (task is not null)
         {
             _taskService.ChangeState(task, TaskStates.Deleted);
-            return RedirectToAction("AboutTask", new { id = id });
+            return RedirectToAction("AllTask");
         }
 
         return NotFound();

@@ -18,6 +18,8 @@ builder.Services.AddDbContext<TaskContext>(options => options.UseNpgsql(connecti
         options.Password.RequireNonAlphanumeric = false;
     })
         .AddEntityFrameworkStores<TaskContext>();
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddScoped<ITasKService, TaskService>();
 var app = builder.Build();
 

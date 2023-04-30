@@ -10,36 +10,52 @@
 
 <div class="container text-center">
   <div class="row">
-    <div class="col">
+    <div class="col h4 pb-2 mb-4 border-bottom border-info text-uppercase">
       <span>@Model.Title</span>
     </div>
   </div>
   <div class="row">
-    <div class="col-4">
-      <span>Статус</span>
-      <span>Приоритет</span>
-      <span>Номер</span>
-      @if (Model is { States: TaskStates.New,ExecutorId: not null })
+    <div class="col-3 border-1 text-start text-info">
+      <div class="row my-1 p-2 bg-info bg-opacity-10 border border-info rounded"><span>Статус: @Model.States.GetDescription()</span></div>
+      <div class="row my-1 p-2 bg-info bg-opacity-10 border border-info rounded"><span>Приоритет: @Model.Priority.GetDescription()</span></div>
+      <div class="row my-1 p-2 bg-info bg-opacity-10 border border-info rounded"><span>Номер: @Model.Id</span></div>
+    </div>
+    <div class="col text-start">
+      <div class="row h4"><span>Описание задачи</span></div>
+      <div class="row"><span>@Model.Description</span></div>
+    </div>
+  </div>
+  <div class="row my-1 p-2 bg-black bg-opacity-50 border border-dark rounded">
+    <div class="col">
+      <span class="text-light">Дата создания: @Model.DateOfCreate</span>
+    </div>
+    @if (Model.States != TaskStates.New)
+    {
+      <div class="col">
+        <span class="text-light">Дата открытия: @Model.DateOfOpen</span>
+      </div>
+      if (Model.States is TaskStates.Close or TaskStates.Deleted)
+      {
+        <div class="col">
+          <span class="text-light">Дата закрытия: @Model.DateOfClose</span>
+        </div>
+      }
+    }
+  </div>
+  <div class="row">
+    <div class="col text-end gx-0">
+      @if (Model is { States: TaskStates.New,ExecutorId: null })
       {
         <a class="btn btn-info" asp-controller="Task" asp-action="OpenTask" asp-route-id="@Model.Id">Принять задачу</a>
       }
       else if (Model.States == TaskStates.Open && Model.ExecutorId == User.Identity.GetUserId())
       {
-        <a class="btn btn-outline-danger" asp-controller="Task" asp-action="CloseTask" asp-route-id="@Model.Id">Закрыть</a>
+        <a class="btn btn-outline-warning" asp-controller="Task" asp-action="CloseTask" asp-route-id="@Model.Id">Закрыть</a>
       }
-    </div>
-    <div class="col-4">
-      <span>@Model.States.GetDescription()</span>
-      <span>@Model.Priority.GetDescription()</span>
-      <span>@Model.Id</span>
       @if (User.IsInRole("admin") || (Model.ManagerId == User.Identity.GetUserId() && Model.States != TaskStates.Open))
       {
-        <a class="btn btn-outline-danger" asp-controller="Task" asp-action="CloseTask" asp-route-id="@Model.Id">Удалить</a>
+        <a class="btn btn-outline-danger" asp-controller="Task" asp-action="Delete" asp-route-id="@Model.Id">Удалить</a>
       }
-    </div>
-    <div class="col-8">
-      <span>Описание задачи</span>
-      <span>@Model.Description</span>
     </div>
   </div>
 </div>

@@ -7,6 +7,7 @@ public class CreateTaskViewModel
 {
     [Required(ErrorMessage = "Поле не может быть пустым")]
     [Display(Name = "Название задачи")]
+    [StringLength(50, MinimumLength = 10, ErrorMessage = "Минимальное количество знаков: 10, Максимальное - 50")]
     public string Title { get; set; }
     
  

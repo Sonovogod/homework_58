@@ -1,4 +1,6 @@
 @using ToDoList.Enums.EmunService
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model List<ShortTaskViewModel>
 
 @{
@@ -25,7 +27,6 @@ else
             @foreach (var task in Model)
             {
                 <tr>
-                    <th scope="row">1</th>
                     <td>@task.Id</td>
                     <td>@task.Title</td>
                     <td>@task.Priority.GetDescription()</td>
@@ -35,26 +36,38 @@ else
                             @switch (task.State.ToString())
                             {
                                 case "New":
-                                    <div class="col-auto">
-                                        <a>Удалить</a>
-                                    </div>
-                                    <div class="col-auto">
-                                        <a>Открыть</a>
-                                    </div>
+                                    if (User.IsInRole("admin") || task.ManagerId == User.Identity.GetUserId())
+                                    {
+                                        <div class="col-auto">
+                                            <a class="btn btn-outline-info" asp-controller="Task" asp-action="OpenTask" asp-route-id="@task.Id">Принять задачу</a>
+                                        </div>
+                                    }
                                     break;
                                 case "Open":
-                                    <div class="col-auto">
-                                    <a>Закрыть</a>
-                                    </div>
+                                    if (User.IsInRole("admin") || task.ExecutorId == User.Identity.GetUserId())
+                                    {
+                                        <div class="col-auto">
+                                            <a class="btn btn-outline-warning" asp-controller="Task" asp-action="CloseTask" asp-route-id="@task.Id">Закрыть</a>
+                                        </div>
+                                    }
                                     break;
                                 case "Close":
-                                    <div class="col-auto">
-                                        <a>Удалить</a>
-                                    </div>
+                                    if (task.ManagerId == User.Identity.GetUserId())
+                                    {
+                                        <div class="col-auto">
+                                            <a class="btn btn-outline-danger" asp-controller="Task" asp-action="CloseTask" asp-route-id="@task.Id">Удалить</a>
+                                        </div>
+                                    }
                                     break;
                             }
+                            @if (User.IsInRole("admin"))
+                                {
+                                    <div class="col-auto">
+                                        <a class="btn btn-outline-danger" asp-controller="Task" asp-action="CloseTask" asp-route-id="@task.Id">Удалить</a>
+                                    </div>
+                                }
                             <div class="col-auto">
-                                <a>Детали</a>
+                                <a class="btn btn-info" asp-action="AboutTask" asp-controller="Task" asp-route-id="@task.Id">Детали</a>
                             </div>
                         </div>
                     </td>

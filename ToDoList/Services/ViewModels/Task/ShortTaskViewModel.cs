@@ -8,4 +8,6 @@ public class ShortTaskViewModel
     public string Title { get; set; }
     public PriorityState Priority { get; set; }
     public TaskStates State { get; set; }
+    public string ManagerId { get; set; }
+    public string? ExecutorId { get; set; }
 }

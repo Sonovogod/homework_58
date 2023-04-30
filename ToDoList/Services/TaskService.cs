@@ -17,14 +17,7 @@ public class TaskService : ITasKService
 
     public List<ShortTaskViewModel> GetAll()
     {
-        List<ShortTaskViewModel> taskViewModels = _db.Tasks
-            .Select(task => new ShortTaskViewModel
-            {
-                Id = task.Id,
-                Title = task.Title,
-                Priority = task.Priority,
-                State = task.State
-            }).ToList();
+        List<ShortTaskViewModel> taskViewModels = _db.Tasks.MapToShortTasksViewModels();
         return taskViewModels;
     }
 
