@@ -25,6 +25,15 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Task" asp-action="CreateTask">Добавить задачу</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-route-key="created" asp-controller="Task" asp-action="GetTasks">Добавленые мной задачи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-route-key="taken" asp-controller="Task" asp-action="GetTasks">Взятые мной задачи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-route-key="free" asp-controller="Task" asp-action="GetTasks">Свободные задачи</a>
+                        </li>
+                        <li class="nav-item">
                             <form asp-action="LogOff" asp-controller="Account" method="post" asp-antiforgery="true">
                                 <button type="submit" class="btn btn-info">Выйти</button>
                             </form>

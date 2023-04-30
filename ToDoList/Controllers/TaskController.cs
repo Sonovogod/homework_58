@@ -141,4 +141,29 @@ public class TaskController : Controller
 
         return NotFound();
     }
+    
+    [HttpGet]
+    [Authorize]
+    public IActionResult GetTasks(string key)
+    {
+        List<ShortTaskViewModel> task = new List<ShortTaskViewModel>();
+        switch (key.ToLower())
+        {
+            case "created":
+                task = _taskService.GetAll().Where(x=> x.ManagerId.Equals(User.Identity.GetUserId())).ToList();
+                break;
+            case "taken":
+                task = _taskService.GetAll().Where(x=> x.ExecutorId != null && x.ExecutorId.Equals(User.Identity.GetUserId())).ToList();
+                break;
+            case "free":
+                task = _taskService.GetAll().Where(x=> x.ExecutorId is null).ToList();
+                break;
+            default:
+                task = _taskService.GetAll();
+                break;
+        }
+        
+        return View(task);
+    }
+    
 }

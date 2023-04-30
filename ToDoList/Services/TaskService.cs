@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ToDoList.Enums;
 using ToDoList.Extensions;
 using ToDoList.Models;
@@ -18,7 +19,10 @@ public class TaskService : ITasKService
 
     public List<ShortTaskViewModel> GetAll()
     {
-        List<ShortTaskViewModel> taskViewModels = _db.Tasks.MapToShortTasksViewModels();
+        List<ShortTaskViewModel> taskViewModels = _db.Tasks
+            .Include(x => x.Executor)
+            .Include(x => x.Manager)
+            .MapToShortTasksViewModels();
         return taskViewModels;
     }
 
