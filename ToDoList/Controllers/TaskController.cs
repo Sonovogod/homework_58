@@ -5,6 +5,7 @@ using ToDoList.Enums;
 using ToDoList.Extensions;
 using ToDoList.Services;
 using ToDoList.Services.ViewModels;
+using ToDoList.Views.Task;
 using Task = ToDoList.Models.Task;
 
 namespace ToDoList.Controllers;
@@ -20,9 +21,10 @@ public class TaskController : Controller
 
     [HttpGet]
     [Authorize]
-    public IActionResult AllTask()
+    public IActionResult AllTask(TaskSortState sortState = TaskSortState.ByTitleAsc)
     {
-        List<ShortTaskViewModel> tasks = _taskService.GetAll();
+        AllTaskPageViewModel tasks = _taskService.GetSortedTask(sortState);
+    
         return View(tasks);
     }
     

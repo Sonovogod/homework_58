@@ -2,6 +2,7 @@ using ToDoList.Enums;
 using ToDoList.Extensions;
 using ToDoList.Models;
 using ToDoList.Services.ViewModels;
+using ToDoList.Views.Task;
 using Task = ToDoList.Models.Task;
 
 namespace ToDoList.Services;
@@ -52,5 +53,54 @@ public class TaskService : ITasKService
                 break;
         }
         Update(task);
+    }
+
+    public AllTaskPageViewModel GetSortedTask(TaskSortState sortState)
+    {
+        IQueryable<Task> tasks = _db.Tasks;
+
+        switch (sortState)
+        {
+            case TaskSortState.ByTitleAsc:
+                tasks = tasks.OrderBy(x => x.Title);
+                break;
+            case TaskSortState.ByTitleDesk:
+                tasks = tasks.OrderByDescending(x => x.Title);
+                break;
+            case TaskSortState.ByStateAsc:
+                tasks = tasks.OrderBy(x => x.State);
+                break;
+            case TaskSortState.ByStateDesc:
+                tasks = tasks.OrderByDescending(x => x.State);
+                break;
+            case TaskSortState.ByPriorityAsc:
+                tasks = tasks.OrderBy(x => x.Priority);
+                break;
+            case TaskSortState.ByPriorityDesc:
+                tasks = tasks.OrderByDescending(x => x.Priority);
+                break;
+            case TaskSortState.ByDateOfCreateAsc:
+                tasks = tasks.OrderBy(x => x.DateOfCreate);
+                break;
+            case TaskSortState.ByDateOfCreateDesk:
+                tasks = tasks.OrderByDescending(x => x.DateOfCreate);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(sortState), sortState, null);
+        }
+
+        AllTaskPageViewModel allTaskPageViewModel = new AllTaskPageViewModel
+        {
+            Tasks = tasks.MapToShortTasksViewModels(),
+            TitleSort = sortState is TaskSortState.ByTitleAsc ? TaskSortState.ByTitleDesk : TaskSortState.ByTitleAsc,
+            DateSort = sortState is TaskSortState.ByDateOfCreateAsc
+                ? TaskSortState.ByDateOfCreateDesk
+                : TaskSortState.ByDateOfCreateAsc,
+            PrioritySort = sortState is TaskSortState.ByPriorityAsc
+                ? TaskSortState.ByPriorityDesc
+                : TaskSortState.ByPriorityAsc,
+            StateSort = sortState is TaskSortState.ByStateAsc ? TaskSortState.ByStateDesc : TaskSortState.ByStateAsc
+        };
+        return allTaskPageViewModel;
     }
 }

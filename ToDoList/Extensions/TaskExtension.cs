@@ -53,7 +53,8 @@ public static class TaskExtension
             Priority = task.Priority,
             State = task.State,
             ManagerId = task.ManagerId,
-            ExecutorId = task.ExecutorId
+            ExecutorId = task.ExecutorId,
+            DateOfCreate = task.DateOfCreate
             
         }).ToList();
         return shortTaskViewModels;

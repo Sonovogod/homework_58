@@ -16,7 +16,7 @@ public class UserValidationController : Controller
     [AcceptVerbs("Get", "Post")]
     public bool CheckUniqueName(string userName)
     {
-        return !_userManager.Users.Any(x=> x.UserName != null && x.UserName.ToUpper().Equals(userName));
+        return !_userManager.Users.Any(x=> x.UserName != null && x.UserName.ToUpper().Equals(userName.ToUpper()));
     }
     
     [AcceptVerbs("Get", "Post")]

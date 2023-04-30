@@ -1,13 +1,13 @@
-@using ToDoList.Enums.EmunService
 @using Microsoft.AspNet.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model List<ShortTaskViewModel>
+@using ToDoList.Enums.EmunService
+@model ToDoList.Views.Task.AllTaskPageViewModel
 
 @{
     ViewBag.Title = "Все задачи";
     Layout = "_Layout";
 }
-@if (!Model.Any())
+@if (!Model.Tasks.Any())
 {
     <h2>Нет активных задач</h2>
 }
@@ -17,31 +17,30 @@ else
         <thead>
         <tr>
             <th scope="col">#ID</th>
-            <th scope="col">Название задачи</th>
-            <th scope="col">Приоритет</th>
-            <th scope="col">Статус</th>
+            <th scope="col"><a asp-action="AllTask" asp-route-sortState="@Model.TitleSort">Название задачи</a></th>
+            <th scope="col"><a asp-action="AllTask" asp-route-sortState="@Model.PrioritySort">Приоритет</a></th>
+            <th scope="col"><a asp-action="AllTask" asp-route-sortState="@Model.StateSort">Статус</a></th>
+            <th scope="col"><a asp-action="AllTask" asp-route-sortState="@Model.DateSort">Дата создания</a></th>
             <th scope="col">Действия</th>
         </tr>
         </thead>
         <tbody class="table-group-divider">
-            @foreach (var task in Model)
+            @foreach (var task in Model.Tasks)
             {
                 <tr>
                     <td>@task.Id</td>
                     <td>@task.Title</td>
                     <td>@task.Priority.GetDescription()</td>
                     <td>@task.State.GetDescription()</td>
+                    <td>@task.DateOfCreate</td>
                     <td>
                         <div class="row">
                             @switch (task.State.ToString())
                             {
                                 case "New":
-                                    if (User.IsInRole("admin") || task.ManagerId == User.Identity.GetUserId())
-                                    {
-                                        <div class="col-auto">
-                                            <a class="btn btn-outline-info" asp-controller="Task" asp-action="OpenTask" asp-route-id="@task.Id">Принять задачу</a>
-                                        </div>
-                                    }
+                                    <div class="col-auto">
+                                        <a class="btn btn-outline-info" asp-controller="Task" asp-action="OpenTask" asp-route-id="@task.Id">Принять задачу</a>
+                                    </div>
                                     break;
                                 case "Open":
                                     if (User.IsInRole("admin") || task.ExecutorId == User.Identity.GetUserId())
