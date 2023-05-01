@@ -4,6 +4,7 @@ using ToDoList.Extensions;
 using ToDoList.Models;
 using ToDoList.Services.ViewModels;
 using ToDoList.Views.Task;
+using ToDoList.Views.Tasks;
 using Task = ToDoList.Models.Task;
 
 namespace ToDoList.Services;
@@ -59,10 +60,12 @@ public class TaskService : ITasKService
         Update(task);
     }
 
-    public AllTaskPageViewModel GetSortedTask(TaskSortState sortState)
+    public AllTaskPageViewModel GetSortedTask(TaskSortState sortState, int currentPage)
     {
         IQueryable<Task> tasks = _db.Tasks;
-
+        int pageSize = 5;
+        int count = tasks.Count();
+        
         switch (sortState)
         {
             case TaskSortState.ByTitleAsc:
@@ -93,9 +96,10 @@ public class TaskService : ITasKService
                 throw new ArgumentOutOfRangeException(nameof(sortState), sortState, null);
         }
 
+        var pagination = tasks.Skip((currentPage - 1) * pageSize).Take(pageSize).MapToShortTasksViewModels();
         AllTaskPageViewModel allTaskPageViewModel = new AllTaskPageViewModel
         {
-            Tasks = tasks.MapToShortTasksViewModels(),
+            Tasks = pagination,
             TitleSort = sortState is TaskSortState.ByTitleAsc ? TaskSortState.ByTitleDesk : TaskSortState.ByTitleAsc,
             DateSort = sortState is TaskSortState.ByDateOfCreateAsc
                 ? TaskSortState.ByDateOfCreateDesk
@@ -103,7 +107,8 @@ public class TaskService : ITasKService
             PrioritySort = sortState is TaskSortState.ByPriorityAsc
                 ? TaskSortState.ByPriorityDesc
                 : TaskSortState.ByPriorityAsc,
-            StateSort = sortState is TaskSortState.ByStateAsc ? TaskSortState.ByStateDesc : TaskSortState.ByStateAsc
+            StateSort = sortState is TaskSortState.ByStateAsc ? TaskSortState.ByStateDesc : TaskSortState.ByStateAsc,
+            Pagination = new PaginationViewModel(count, currentPage, pageSize)
         };
         return allTaskPageViewModel;
     }

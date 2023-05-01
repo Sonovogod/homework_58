@@ -52,7 +52,7 @@ public class AccountController : Controller
                         return Redirect(model.ReturnUrl);
                     }
 
-                    return RedirectToAction("AllTask", "Task");
+                    return RedirectToAction("AllTask", "Tasks");
                 }
             }
             ModelState.AddModelError("incorrectAuthentication", "Некорректный логин и/или пароль");
@@ -77,7 +77,7 @@ public class AccountController : Controller
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(newUser, true);
-                return RedirectToAction("AllTask", "Task");
+                return RedirectToAction("AllTask", "Tasks");
             }
 
             foreach (var error in result.Errors)

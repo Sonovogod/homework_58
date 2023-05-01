@@ -12,5 +12,5 @@ public interface ITasKService
     public Task? GetById(int id);
     public void Update(Task task);
     public void ChangeState(Task task, TaskStates close);
-    public AllTaskPageViewModel GetSortedTask(TaskSortState sortState);
+    public AllTaskPageViewModel GetSortedTask(TaskSortState sortState, int currentPage);
 }

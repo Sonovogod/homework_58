@@ -46,15 +46,15 @@
     <div class="col text-end gx-0">
       @if (Model is { States: TaskStates.New,ExecutorId: null })
       {
-        <a class="btn btn-info" asp-controller="Task" asp-action="OpenTask" asp-route-id="@Model.Id">Принять задачу</a>
+        <a class="btn btn-info" asp-controller="Tasks" asp-action="OpenTask" asp-route-id="@Model.Id">Принять задачу</a>
       }
       else if (Model.States == TaskStates.Open && Model.ExecutorId == User.Identity.GetUserId())
       {
-        <a class="btn btn-outline-warning" asp-controller="Task" asp-action="CloseTask" asp-route-id="@Model.Id">Закрыть</a>
+        <a class="btn btn-outline-warning" asp-controller="Tasks" asp-action="CloseTask" asp-route-id="@Model.Id">Закрыть</a>
       }
       @if (User.IsInRole("admin") || (Model.ManagerId == User.Identity.GetUserId() && Model.States != TaskStates.Open))
       {
-        <a class="btn btn-outline-danger" asp-controller="Task" asp-action="Delete" asp-route-id="@Model.Id">Удалить</a>
+        <a class="btn btn-outline-danger" asp-controller="Tasks" asp-action="Delete" asp-route-id="@Model.Id">Удалить</a>
       }
     </div>
   </div>

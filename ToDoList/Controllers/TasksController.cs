@@ -10,20 +10,20 @@ using Task = ToDoList.Models.Task;
 
 namespace ToDoList.Controllers;
 
-public class TaskController : Controller
+public class TasksController : Controller
 {
     private readonly ITasKService _taskService;
 
-    public TaskController(ITasKService taskService)
+    public TasksController(ITasKService taskService)
     {
         _taskService = taskService;
     }
 
     [HttpGet]
     [Authorize]
-    public IActionResult AllTask(TaskSortState sortState = TaskSortState.ByTitleAsc)
+    public IActionResult AllTask(TaskSortState sortState = TaskSortState.ByTitleAsc, int currentPage = 1)
     {
-        AllTaskPageViewModel tasks = _taskService.GetSortedTask(sortState);
+        AllTaskPageViewModel tasks = _taskService.GetSortedTask(sortState, currentPage);
     
         return View(tasks);
     }
@@ -44,7 +44,7 @@ public class TaskController : Controller
         if (ModelState.IsValid)
         {
             _taskService.Add(model);
-            return RedirectToAction("AllTask", "Task");
+            return RedirectToAction("AllTask", "Tasks");
         }
         return View(model);
     }

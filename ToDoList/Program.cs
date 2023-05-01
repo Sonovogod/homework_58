@@ -54,6 +54,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Task}/{action=AllTask}/{id?}");
+    pattern: "{controller=Tasks}/{action=AllTask}/{id?}");
 
 app.Run();
